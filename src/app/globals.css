@@ -1,0 +1,255 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-page: #090B09;
+  --bg-secondary: #0E110E;
+  --bg-card: #121613;
+  --bg-elevated: #161B17;
+  --accent-green: #72977A; /* Soft desaturated moss / jade green */
+  --accent-green-light: #94B59B;
+  --accent-green-dim: #55725C;
+  --accent-green-dark: #2B3B2F;
+  --text-primary: #F2F2EC; /* Warm white */
+  --text-muted: #92968F; /* Muted neutral grey */
+  --text-subtle: #5C615A;
+  --border-line: #1C221D;
+  --border-hover: #2F3930;
+  --font-space: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace;
+
+  /* nk.studio Precise Motion & Curve Tokens */
+  --ease-default: cubic-bezier(.18, 1, .32, 1);
+  --ease-soft: cubic-bezier(.18, 1, .32, 1);
+  --ease-soft-out: cubic-bezier(.18, 1, .32, 1);
+  --ease-soft-in: cubic-bezier(.18, 1, .32, 1);
+  --ease-emphasis: cubic-bezier(.18, 1, .32, 1);
+  --ease-settle: cubic-bezier(.18, 1, .32, 1);
+
+  /* Timing */
+  --duration-arrow: 0.22s;
+  --duration-paragraph: 0.42s;
+  --duration-card: 0.52s;
+  --duration-title: 0.60s;
+  --duration-hero: 0.66s;
+  --duration-default: 0.72s;
+  --duration-fast: 0.22s;
+
+  /* nk.studio Card Grid Sibling Dim-Blur System */
+  --card-grid-dim-opacity: 0.35;
+  --card-grid-dim-blur: 4px;
+  --card-grid-dim-duration: 0.7s;
+  --card-title-shift-x: 15px;
+  --card-title-shift-duration: 1.2s;
+
+  /* nk.studio Kinetic CTA Hover */
+  --cta-hover-shift-x: 15px;
+  --cta-hover-shift-duration: 1.2s;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  font-family: var(--font-space);
+  scroll-behavior: smooth;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  background: var(--bg-page);
+  min-height: 100vh;
+}
+
+::selection {
+  background: var(--accent-green);
+  color: #090B09;
+}
+
+/* Custom Minimal Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #090B09;
+}
+::-webkit-scrollbar-thumb {
+  background: #1C221D;
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-green-dim);
+}
+
+/* Editorial Typography */
+.font-editorial {
+  letter-spacing: -0.035em;
+  line-height: 0.95;
+}
+
+.text-editorial-headline {
+  letter-spacing: -0.04em;
+  line-height: 0.92;
+}
+
+/* Subtle Hairline Dividers */
+.hairline-border {
+  border-color: var(--border-line);
+}
+
+/* Watermark typography */
+.text-watermark {
+  user-select: none;
+  pointer-events: none;
+  color: rgba(242, 242, 236, 0.03);
+  letter-spacing: -0.05em;
+  line-height: 0.8;
+}
+
+/* ============================================================
+   nk.studio SIGNATURE PARALLAX & MASK UTILITIES
+   ============================================================ */
+
+/* nk.studio Vertical Edge Fade Mask */
+.mask-vertical-fade {
+  -webkit-mask-image: linear-gradient(0deg, transparent 0%, black 13%, black 87%, transparent 100%);
+  mask-image: linear-gradient(0deg, transparent 0%, black 13%, black 87%, transparent 100%);
+}
+
+/* Horizontal Fade Mask (for marquee & tabs) */
+.mask-horizontal-fade {
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 10%, black 90%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0%, black 10%, black 90%, transparent 100%);
+}
+
+/* ============================================================
+   nk.studio SIBLING DIM-BLUR GRID SYSTEM
+   ============================================================ */
+.dim-blur-group {
+  transition: opacity var(--card-grid-dim-duration) var(--ease-soft),
+              filter var(--card-grid-dim-duration) var(--ease-soft);
+}
+
+@media (min-width: 1024px) {
+  /* When hovering the parent container, blur & dim all sibling items that are NOT hovered */
+  .dim-blur-container:hover .dim-blur-card:not(:hover) {
+    opacity: var(--card-grid-dim-opacity);
+    filter: blur(var(--card-grid-dim-blur));
+    transition: opacity var(--card-grid-dim-duration) var(--ease-soft),
+                filter var(--card-grid-dim-duration) var(--ease-soft);
+  }
+
+  .dim-blur-container .dim-blur-card {
+    transition: opacity var(--card-grid-dim-duration) var(--ease-soft),
+                filter var(--card-grid-dim-duration) var(--ease-soft),
+                transform var(--card-grid-dim-duration) var(--ease-soft);
+  }
+
+  .dim-blur-container .dim-blur-card:hover {
+    transform: translateY(-2px);
+  }
+}
+
+/* ============================================================
+   nk.studio SIGNATURE DUAL-UNDERLINE SPLIT HOVER
+   ============================================================ */
+.studio-underline {
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.studio-underline::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0px;
+  height: 1.5px;
+  background-color: var(--accent-green);
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform var(--duration-card) var(--ease-soft),
+              background-color var(--duration-card) var(--ease-soft);
+  pointer-events: none;
+}
+
+.studio-underline::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0px;
+  height: 1.5px;
+  background-color: var(--accent-green);
+  transform-origin: left;
+  transform: scaleX(1);
+  transition: transform var(--duration-card) var(--ease-soft),
+              background-color var(--duration-card) var(--ease-soft);
+  pointer-events: none;
+}
+
+.group:hover .studio-underline::after,
+.studio-underline:hover::after {
+  transform-origin: right;
+  transform: scaleX(0) !important;
+}
+
+.group:hover .studio-underline::before,
+.studio-underline:hover::before {
+  transform: scaleX(1) !important;
+}
+
+/* ============================================================
+   nk.studio VIDEO FILTERS & POST-PROCESSING
+   ============================================================ */
+.video-filter-cinematic {
+  filter: contrast(1.06) brightness(0.96) saturate(0.88);
+}
+
+.video-filter-mono {
+  filter: grayscale(1) contrast(1.15) brightness(0.92);
+}
+
+.video-filter-warm-editorial {
+  filter: sepia(0.12) contrast(1.08) brightness(0.94) saturate(0.92);
+}
+
+.video-scanlines {
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.25) 50%
+  ), linear-gradient(
+    90deg,
+    rgba(255, 0, 0, 0.03),
+    rgba(0, 255, 0, 0.01),
+    rgba(0, 0, 255, 0.03)
+  );
+  background-size: 100% 3px, 6px 100%;
+}
+
+/* Film Grain Texture */
+.film-grain-overlay {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
